@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>石門浸信會 Shihmen Baptist Church | 連結神與人的家</title>
+    <title>石門浸信會 Shihmen Baptist Church | 井然有序、健康溫暖</title>
     <meta name="description" content="石門浸信會：建立井然有序、健康溫暖的教會。桃園龍潭，歡迎加入主日崇拜與事工。">
     <meta property="og:title" content="石門浸信會 - 建立井然有序、健康溫暖的教會">
     <meta property="og:image" content="./image/logo.png">
-    
+    <link rel="icon" type="image/x-icon" href="/image/logo.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome (Icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,7 +34,8 @@
                     },
                     fontFamily: {
                         sans: ['Noto Sans TC', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        play: ['Playfair Display', 'serif'],
+                        serif: ['Noto Serif TC', 'serif'],
                     },
                     boxShadow: {
                         'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
@@ -61,9 +63,25 @@
         }
 
         /* 英雄區塊背景遮罩 */
+        /*
         .hero-overlay {
             background: linear-gradient(to bottom, rgba(58,90,64,0.3) 0%, rgba(58,90,64,0.6) 100%);
         }
+        */
+
+        /* 英雄區塊背景遮罩 - 黑色玻璃沉浸感 */
+        .hero-overlay {
+            /* 使用 70% 到 85% 不等透明度的純黑或極深色 */
+            background: linear-gradient(
+            to bottom, 
+            rgba(0, 0, 0, 0.4) 0%, 
+            rgba(0, 0, 0, 0.75) 100%
+        );
+    
+    /* 玻璃霧面感核心：模糊後方背景圖 */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px); /* 為了相容 Safari */
+}
         
         /* 玻璃擬態 */
         .glass {
@@ -85,7 +103,7 @@
                 </div>
                 <div>
                     <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">石門浸信會</span>
-                    <span class="text-xs text-secondary block font-serif tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
+                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
                 </div>
             </a>
             
@@ -131,7 +149,7 @@
                 建立井然有序<br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream to-white">健康溫暖的教會</span>
             </h1>
-            <p class="text-lg md:text-2xl mb-10 font-light text-gray-100 max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg md:text-2xl mb-10 text-gray-100 max-w-2xl mx-auto leading-relaxed">
                 歡迎來到石門浸信會
             </p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
@@ -387,7 +405,7 @@
             
             <div class="container mx-auto px-6 max-w-5xl relative z-10 text-center">
                 <div class="mb-12 reveal">
-                    <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">奉獻支持</h2>
+                    <h2 class="text-3xl md:text-5xl font-sans font-bold mb-4">奉獻支持</h2>
                     <p class="text-green-100 text-lg">您的奉獻將支持神國的事工，一起建造榮耀的教會</p>
                 </div>
 
