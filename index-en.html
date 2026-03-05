@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>石門浸信會 Shihmen Baptist Church | 井然有序、健康溫暖</title>
-    <meta name="description" content="石門浸信會：建立井然有序、健康溫暖的教會。桃園龍潭，歡迎加入主日崇拜與事工。">
-    <meta property="og:title" content="石門浸信會 - 建立井然有序、健康溫暖的教會">
+    <title>Shihmen Baptist Church | Orderly & Warm</title>
+    <meta name="description" content="Shihmen Baptist Church: Building an orderly and warm church. Located in Taoyuan Longtan, welcome to join Sunday worship and ministries.">
+    <meta property="og:title" content="Shihmen Baptist Church - Building an Orderly & Warm Church">
     <meta property="og:image" content="./image/logo.png">
     <link rel="icon" type="image/x-icon" href="/image/logo.png">
 
@@ -25,12 +25,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3A5A40',      // 森綠色 (主色)
-                        secondary: '#588157',    // 淺橄欖綠 (次色)
-                        accent: '#BC4749',       // 磚紅色 (強調色)
-                        cream: '#F2E8CF',        // 米黃色 (背景)
-                        dark: '#333333',         // 深鐵灰 (文字)
-                        light: '#FDFBF7',        // 亮米白 (卡片背)
+                        primary: '#3A5A40',
+                        secondary: '#588157',
+                        accent: '#BC4749',
+                        cream: '#F2E8CF',
+                        dark: '#333333',
+                        light: '#FDFBF7',
                     },
                     fontFamily: {
                         sans: ['Noto Sans TC', 'sans-serif'],
@@ -45,13 +45,11 @@
         }
     </script>
     <style>
-        /* 自定義滾動條 */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        /* 滾動顯現動畫 CSS */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -62,28 +60,16 @@
             transform: translateY(0);
         }
 
-        /* 英雄區塊背景遮罩 */
-        /*
         .hero-overlay {
-            background: linear-gradient(to bottom, rgba(58,90,64,0.3) 0%, rgba(58,90,64,0.6) 100%);
-        }
-        */
-
-        /* 英雄區塊背景遮罩 - 黑色玻璃沉浸感 */
-        .hero-overlay {
-            /* 使用 70% 到 85% 不等透明度的純黑或極深色 */
             background: linear-gradient(
             to bottom, 
             rgba(0, 0, 0, 0.4) 0%, 
             rgba(0, 0, 0, 0.75) 100%
         );
-    
-    /* 玻璃霧面感核心：模糊後方背景圖 */
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px); /* 為了相容 Safari */
-}
-        
-        /* 玻璃擬態 */
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        }
+
         .glass {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -96,27 +82,26 @@
     <!-- 導航欄 -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 top-0 glass shadow-sm border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-6xl">
-            <a href="#" class="flex items-center gap-3 group">
-                <!-- 注意：這裡預設是圖片，如果圖片讀不到會顯示替代文字 -->
+            <a href="index-en.html" class="flex items-center gap-3 group">
                 <div class="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white overflow-hidden shadow-md">
                      <img src="image/logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fas fa-cross\'></i>'">
                 </div>
                 <div>
-                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">石門浸信會</span>
-                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
+                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">Shihmen Baptist Church</span>
+                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">石門浸信會</span>
                 </div>
             </a>
             
             <!-- 電腦版選單 -->
             <div class="hidden md:flex space-x-1 items-center font-medium text-gray-600">
-                <a href="#about" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">關於我們</a>
-                <a href="#service" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">聚會時間</a>
-                <a href="#team" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">牧者團隊</a>
-                <a href="#history" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">歷史沿革</a>
-                <a href="courses.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">裝備課程</a>
-                <a href="index-en.html" class="px-3 py-2 text-sm font-bold text-gray-500 hover:text-primary transition">EN</a>
+                <a href="#about" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">About</a>
+                <a href="#service" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">Services</a>
+                <a href="#team" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">Pastoral Team</a>
+                <a href="#history" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">History</a>
+                <a href="courses-en.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">Courses</a>
+                <a href="index.html" class="px-3 py-2 text-sm font-bold text-gray-500 hover:text-primary transition">中文</a>
                 <a href="#giving" class="ml-2 lg:ml-4 px-6 py-2 bg-accent text-white rounded-full hover:bg-red-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
-                    <i class="fas fa-heart mr-2 text-sm"></i>奉獻
+                    <i class="fas fa-heart mr-2 text-sm"></i>Give
                 </a>
             </div>
 
@@ -130,18 +115,17 @@
     <!-- 手機全屏選單 -->
     <div id="mobile-menu" class="fixed inset-0 bg-primary/95 z-40 hidden flex flex-col items-center justify-center space-y-8 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
         <button id="mobile-close" class="absolute top-6 right-6 text-white text-3xl hover:rotate-90 transition duration-300">&times;</button>
-        <a href="#about" class="text-2xl text-white font-bold hover:text-cream transition">關於我們</a>
-        <a href="#service" class="text-2xl text-white font-bold hover:text-cream transition">聚會時間</a>
-        <a href="#team" class="text-2xl text-white font-bold hover:text-cream transition">牧者團隊</a>
-        <a href="#history" class="text-2xl text-white font-bold hover:text-cream transition">歷史沿革</a>
-        <a href="courses.html" class="text-2xl text-white font-bold hover:text-cream transition">裝備課程</a>
-        <a href="index-en.html" class="text-2xl text-white font-bold hover:text-cream transition">English</a>
-        <a href="#giving" class="text-2xl text-accent bg-white px-8 py-3 rounded-full font-bold shadow-lg">奉獻支持</a>
+        <a href="#about" class="text-2xl text-white font-bold hover:text-cream transition">About</a>
+        <a href="#service" class="text-2xl text-white font-bold hover:text-cream transition">Services</a>
+        <a href="#team" class="text-2xl text-white font-bold hover:text-cream transition">Pastoral Team</a>
+        <a href="#history" class="text-2xl text-white font-bold hover:text-cream transition">History</a>
+        <a href="courses-en.html" class="text-2xl text-white font-bold hover:text-cream transition">Courses</a>
+        <a href="index.html" class="text-2xl text-white font-bold hover:text-cream transition">中文</a>
+        <a href="#giving" class="text-2xl text-accent bg-white px-8 py-3 rounded-full font-bold shadow-lg">Give</a>
     </div>
 
     <!-- Hero Header -->
     <header class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- 背景圖 (使用 Unsplash 示意圖，請換回您的 ./image/smbch.png) -->
         <div class="absolute inset-0 bg-cover bg-center bg-fixed transition-transform duration-1000 transform scale-105" 
              style="background-image: url(image/chapel-2.jpg);">
         </div>
@@ -150,18 +134,18 @@
         <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto mt-16 reveal active">
             <span class="block text-accent font-bold tracking-[0.2em] mb-4 text-sm md:text-base uppercase animate-fade-in-up">Welcome Home</span>
             <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 leading-tight drop-shadow-lg">
-                建立井然有序<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream to-white">健康溫暖的教會</span>
+                Building an Orderly<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream to-white">& Warm Church</span>
             </h1>
             <p class="text-lg md:text-2xl mb-10 text-gray-100 max-w-2xl mx-auto leading-relaxed">
-                歡迎來到石門浸信會
+                Welcome to Shihmen Baptist Church
             </p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <a href="#service" class="group bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-cream transition duration-300 shadow-lg flex items-center justify-center">
-                    加入聚會 <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition"></i>
+                    Join Us <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition"></i>
                 </a>
                 <a href="https://www.youtube.com/channel/UC-vILwk3m0q2jV3N5ws7Mng" target="_blank" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-white/10 transition duration-300">
-                    <i class="fab fa-youtube mr-2"></i> 線上收看
+                    <i class="fab fa-youtube mr-2"></i> Watch Online
                 </a>
             </div>
         </div>
@@ -183,14 +167,12 @@
                     <div class="reveal">
                         <div class="relative group">
                             <div class="absolute -inset-4 bg-secondary/20 rounded-2xl transform rotate-3 group-hover:rotate-2 transition duration-500"></div>
-                            <!-- 用於顯示圖片的容器 -->
                             <img src="image/smbch.png" 
-                                 alt="教會生活" 
+                                 alt="Church Life" 
                                  class="relative rounded-2xl shadow-2xl w-full h-[500px] object-cover transition transform duration-500 group-hover:-translate-y-2">
-                            <!-- 浮動卡片 -->
                             <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border-l-4 border-accent hidden md:block">
                                 <p class="text-4xl font-bold text-primary mb-1">50+</p>
-                                <p class="text-gray-500 text-sm">年的恩典歲月</p>
+                                <p class="text-gray-500 text-sm">Years of Grace</p>
                             </div>
                         </div>
                     </div>
@@ -198,33 +180,32 @@
                     <div class="space-y-8 reveal delay-200">
                         <div>
                             <h2 class="text-accent font-bold tracking-widest text-sm uppercase mb-2">Our Vision</h2>
-                            <h3 class="text-4xl md:text-5xl font-bold text-primary mb-6 leading-tight">井然有序<br>健康溫暖</h3>
+                            <h3 class="text-4xl md:text-5xl font-bold text-primary mb-6 leading-tight">Orderly<br>Warm & Welcoming</h3>
                             <div class="w-20 h-1 bg-accent rounded-full"></div>
                         </div>
                         <p class="text-gray-600 text-lg leading-relaxed">
-                            石門浸信會不只是一棟建築，而是一群被神呼召的人。我們致力於建立一個像家一樣溫暖的群體，
-                            讓每個人都能在這裡找到歸屬感，並在真理中有序成長。
+                            Shihmen Baptist Church is not just a building, but a community called by God. We are committed to building a warm family-like congregation where everyone can find belonging and grow in an orderly manner through truth.
                         </p>
                         <ul class="space-y-4 mt-6">
                             <li class="flex items-start">
                                 <span class="bg-green-100 text-primary p-2 rounded-full mr-4 mt-1"><i class="fas fa-bible"></i></span>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">扎根真理</h4>
-                                    <p class="text-gray-500">透過系統性的教導，讓生命有根有基。</p>
+                                    <h4 class="font-bold text-lg text-gray-800">Rooted in Truth</h4>
+                                    <p class="text-gray-500">Through systematic teaching, building a firm foundation for life.</p>
                                 </div>
                             </li>
                             <li class="flex items-start">
                                 <span class="bg-red-100 text-accent p-2 rounded-full mr-4 mt-1"><i class="fas fa-users"></i></span>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">彼此相愛</h4>
-                                    <p class="text-gray-500">在小組團契中經歷真實的接納與關懷。</p>
+                                    <h4 class="font-bold text-lg text-gray-800">Loving One Another</h4>
+                                    <p class="text-gray-500">Experience genuine acceptance and care in small groups.</p>
                                 </div>
                             </li>
                             <li class="flex items-start">
                                 <span class="bg-blue-100 text-blue-600 p-2 rounded-full mr-4 mt-1"><i class="fas fa-globe-asia"></i></span>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">宣揚福音</h4>
-                                    <p class="text-gray-500">走出牆外，服務社區，完成大使命。</p>
+                                    <h4 class="font-bold text-lg text-gray-800">Proclaiming the Gospel</h4>
+                                    <p class="text-gray-500">Going beyond the walls to serve the community and complete the Great Commission.</p>
                                 </div>
                             </li>
                         </ul>
@@ -237,48 +218,47 @@
         <section id="service" class="py-24 bg-light relative">
             <div class="container mx-auto px-6 max-w-6xl">
                 <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">聚會時間與地點</h2>
-                    <p class="text-gray-500 max-w-2xl mx-auto">我們每週都有不同時段的聚會，歡迎依照您的時間與年齡層加入我們。</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Service Times & Location</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">We have various services throughout the week. Feel free to join us according to your schedule and age group.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- 時間表卡片 -->
                     <div class="bg-white rounded-3xl p-8 md:p-12 shadow-soft hover:shadow-xl transition duration-300 border-t-8 border-primary reveal">
                         <div class="flex items-center justify-between mb-8">
-                            <h3 class="text-2xl font-bold text-gray-800"><i class="far fa-clock text-accent mr-3"></i>崇拜時間</h3>
-                            <a href="#" class="text-sm text-primary font-bold hover:underline">查看所有聚會</a>
+                            <h3 class="text-2xl font-bold text-gray-800"><i class="far fa-clock text-accent mr-3"></i>Worship Times</h3>
+                            <a href="#" class="text-sm text-primary font-bold hover:underline">View All Services</a>
                         </div>
                         <ul class="space-y-6">
                             <li class="flex justify-between items-center bg-gray-50 p-4 rounded-xl">
                                 <div class="flex items-center">
-                                    <div class="bg-primary/10 text-primary font-bold w-12 h-12 rounded-lg flex items-center justify-center mr-4">日</div>
+                                    <div class="bg-primary/10 text-primary font-bold w-12 h-12 rounded-lg flex items-center justify-center mr-4">SUN</div>
                                     <div>
-                                        <p class="font-bold text-gray-800">主日崇拜</p>
-                                        <p class="text-xs text-gray-500">2F大堂</p>
+                                        <p class="font-bold text-gray-800">Sunday Worship</p>
+                                        <p class="text-xs text-gray-500">2F Main Hall</p>
                                     </div>
                                 </div>
                                 <span class="text-lg font-bold text-primary">10:00 AM</span>
                             </li>
                             <li class="flex justify-between items-center bg-gray-50 p-4 rounded-xl opacity-75">
                                 <div class="flex items-center">
-                                    <div class="bg-gray-200 text-gray-600 font-bold w-12 h-12 rounded-lg flex items-center justify-center mr-4">六</div>
+                                    <div class="bg-gray-200 text-gray-600 font-bold w-12 h-12 rounded-lg flex items-center justify-center mr-4">SAT</div>
                                     <div>
-                                        <p class="font-bold text-gray-800">週六崇拜</p>
-                                        <p class="text-xs text-gray-500">B1新世代敬拜中心</p>
+                                        <p class="font-bold text-gray-800">Saturday Worship</p>
+                                        <p class="text-xs text-gray-500">B1 Next Gen Worship Center</p>
                                     </div>
                                 </div>
                                 <span class="text-lg font-bold text-gray-600">06:00 PM</span>
                             </li>
-                            <!-- 可新增更多聚會 -->
                         </ul>
                     </div>
 
                     <!-- 地圖卡片 -->
                     <div class="bg-white rounded-3xl p-8 md:p-12 shadow-soft hover:shadow-xl transition duration-300 border-t-8 border-accent reveal delay-100 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-6"><i class="fas fa-map-marker-alt text-accent mr-3"></i>聚會地點</h3>
-                            <p class="text-xl font-medium text-gray-800 mb-2">325006 桃園市龍潭區文化路 87 號</p>
-                            <p class="text-gray-500 mb-8"><i class="fas fa-landmark mr-2"></i>石門國中旁</p>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6"><i class="fas fa-map-marker-alt text-accent mr-3"></i>Location</h3>
+                            <p class="text-xl font-medium text-gray-800 mb-2">No. 87, Wenhua Road, Longtan District, Taoyuan City 325006</p>
+                            <p class="text-gray-500 mb-8"><i class="fas fa-landmark mr-2"></i>Next to Shihmen Junior High School</p>
                             
                             <div class="space-y-2 mb-8 text-gray-600">
                                 <p><i class="fas fa-phone-alt w-6 text-center text-primary"></i> (03) 471-2542</p>
@@ -288,7 +268,7 @@
                         
                         <a href="https://www.google.com/maps/search/?api=1&query=石門浸信會+桃園市龍潭區文化路87號" target="_blank" 
                            class="block w-full text-center bg-gray-100 text-gray-700 font-bold py-4 rounded-xl hover:bg-primary hover:text-white transition duration-300">
-                            <i class="fas fa-location-arrow mr-2"></i>開啟 Google 地圖導航
+                            <i class="fas fa-location-arrow mr-2"></i>Open Google Maps
                         </a>
                     </div>
                 </div>
@@ -298,41 +278,35 @@
         <!-- 牧者團隊 -->
         <section id="team" class="py-24 bg-white">
             <div class="container mx-auto px-6 max-w-6xl text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-16 reveal">牧者團隊</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-16 reveal">Pastoral Team</h2>
                 
                 <div class="grid md:grid-cols-3 gap-10">
                     <!-- Card 1 -->
                     <div class="reveal delay-100">
                         <div class="overflow-hidden rounded-2xl mb-6 aspect-square bg-gray-200">
-                            <img src="image/pastor-chen.jpg" alt="陳明正 牧師" class="w-full h-full object-cover">
+                            <img src="image/pastor-chen.jpg" alt="Pastor Chen Ming-Jheng" class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800">陳明正 牧師</h3>
-                        <p class="text-accent font-medium mb-1">主任牧師</p>
-                        <p class="text-sm text-gray-400">吳麗蓉 師母</p>
+                        <h3 class="text-2xl font-bold text-gray-800">Pastor Chen Ming-Jheng</h3>
+                        <p class="text-accent font-medium mb-1">Senior Pastor</p>
+                        <p class="text-sm text-gray-400">Spouse: Wu Li-Rong</p>
                     </div>
 
                     <!-- Card 2 -->
                     <div class="reveal delay-200">
                         <div class="overflow-hidden rounded-2xl mb-6 aspect-square bg-gray-200">
-                             <img src="image/pastor-hsu.jpg" alt="許秀敏 牧師" class="w-full h-full object-cover">
+                             <img src="image/pastor-hsu.jpg" alt="Pastor Hsu Hsiu-Min" class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800">許秀敏 牧師</h3>
-                        <!--
-                        <p class="text-accent font-medium mb-1">成人牧區 區牧</p>
-                        -->
-                        <p class="text-sm text-gray-400">徐桂昌 師丈</p>
+                        <h3 class="text-2xl font-bold text-gray-800">Pastor Hsu Hsiu-Min</h3>
+                        <p class="text-sm text-gray-400">Spouse: Hsu Kuei-Chang</p>
                     </div>
 
                     <!-- Card 3 -->
                     <div class="reveal delay-300">
                         <div class="overflow-hidden rounded-2xl mb-6 aspect-square bg-gray-200">
-                             <img src="image/pastor-tien.jpg" alt="田翊君 牧師" class="w-full h-full object-cover">
+                             <img src="image/pastor-tien.jpg" alt="Pastor Tien Yi-Jun" class="w-full h-full object-cover">
                         </div>
                         
-                        <h3 class="text-2xl font-bold text-gray-800">田翊君 牧師</h3>
-                        <!--
-                        <p class="text-accent font-medium">青年、青少年牧區 區牧</p>
-                        -->
+                        <h3 class="text-2xl font-bold text-gray-800">Pastor Tien Yi-Jun</h3>
                     </div>
                 </div>
             </div>
@@ -341,16 +315,16 @@
         <!-- 歷史沿革 -->
         <section id="history" class="py-24 bg-light">
             <div class="container mx-auto px-6 max-w-4xl">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-16 reveal">歷史軌跡</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-16 reveal">Our History</h2>
                 
                 <div class="relative border-l-2 border-dashed border-gray-300 ml-6 md:ml-12 space-y-12">
                     <!-- Item -->
                     <div class="relative pl-8 md:pl-12 reveal">
                         <div class="absolute -left-[9px] top-2 w-5 h-5 bg-primary rounded-full border-4 border-light ring-2 ring-primary/20"></div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">1960.10.16</span>
-                            <h4 class="text-xl font-bold text-gray-800">成立石門佈道所</h4>
-                            <p class="text-gray-500 mt-2 text-sm">福音的種子開始在這片土地萌芽。</p>
+                            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">Oct 16, 1960</span>
+                            <h4 class="text-xl font-bold text-gray-800">Shihmen Mission Started</h4>
+                            <p class="text-gray-500 mt-2 text-sm">The seed of the Gospel began to sprout in this land.</p>
                         </div>
                     </div>
                     
@@ -358,9 +332,9 @@
                     <div class="relative pl-8 md:pl-12 reveal">
                         <div class="absolute -left-[9px] top-2 w-5 h-5 bg-primary rounded-full border-4 border-light ring-2 ring-primary/20"></div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                             <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">1965.12.12</span>
-                            <h4 class="text-xl font-bold text-gray-800">舊堂獻堂</h4>
-                            <p class="text-gray-500 mt-2 text-sm">有了屬於自己的聚會所，教會根基穩固。</p>
+                             <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">Dec 12, 1965</span>
+                            <h4 class="text-xl font-bold text-gray-800">Old Sanctuary Dedication</h4>
+                            <p class="text-gray-500 mt-2 text-sm">Having our own worship place, the church foundation was solidified.</p>
                         </div>
                     </div>
                     
@@ -368,9 +342,9 @@
                     <div class="relative pl-8 md:pl-12 reveal">
                         <div class="absolute -left-[9px] top-2 w-5 h-5 bg-primary rounded-full border-4 border-light ring-2 ring-primary/20"></div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">1997.07</span>
-                            <h4 class="text-xl font-bold text-gray-800">陳明正傳道到任</h4>
-                            <p class="text-gray-500 mt-2 text-sm">帶領教會進入新的牧養階段，並於 2000 年按牧。</p>
+                            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">Jul 1997</span>
+                            <h4 class="text-xl font-bold text-gray-800">Pastor Chen Ming-Jheng Assumed Office</h4>
+                            <p class="text-gray-500 mt-2 text-sm">Leading the church into a new pastoral phase, ordained in 2000.</p>
                         </div>
                     </div>
                     
@@ -379,8 +353,8 @@
                         <div class="absolute -left-[11px] top-2 w-6 h-6 bg-accent rounded-full border-4 border-light ring-4 ring-accent/20 animate-pulse"></div>
                         <div class="bg-gradient-to-br from-white to-red-50 p-6 rounded-xl shadow-md border-l-4 border-accent transition transform hover:-translate-y-1">
                              <span class="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full mb-2">2018 - Present</span>
-                            <h4 class="text-xl font-bold text-gray-800">建立有傳承的國度教會</h4>
-                            <p class="text-gray-600 mt-2">轉型小組教會，致力於門徒訓練與宣教。</p>
+                            <h4 class="text-xl font-bold text-gray-800">Building a Kingdom Church with Legacy</h4>
+                            <p class="text-gray-600 mt-2">Transitioning to a cell church, committed to disciple-making and missions.</p>
                         </div>
                     </div>
                 </div>
@@ -394,8 +368,8 @@
             
             <div class="container mx-auto px-6 max-w-5xl relative z-10 text-center">
                 <div class="mb-12 reveal">
-                    <h2 class="text-3xl md:text-5xl font-sans font-bold mb-4">奉獻支持</h2>
-                    <p class="text-green-100 text-lg">您的奉獻將支持神國的事工，一起建造榮耀的教會</p>
+                    <h2 class="text-3xl md:text-5xl font-sans font-bold mb-4">Give & Support</h2>
+                    <p class="text-green-100 text-lg">Your giving supports God's kingdom work and helps build a glorious church together</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-6 text-left reveal delay-100">
@@ -403,24 +377,24 @@
                     <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-university text-3xl text-accent mr-4"></i>
-                            <h3 class="text-xl font-bold">郵政劃撥</h3>
+                            <h3 class="text-xl font-bold">Postal Transfer</h3>
                         </div>
                         <div class="space-y-2 font-mono text-lg">
-                            <p class="text-green-200 text-sm font-sans">帳號</p>
+                            <p class="text-green-200 text-sm font-sans">Account No.</p>
                             <p class="text-2xl font-bold tracking-wider">18402541</p>
-                            <p class="text-sm pt-2 border-t border-white/10 mt-2">戶名：石門浸信會</p>
+                            <p class="text-sm pt-2 border-t border-white/10 mt-2">Account Name: Shihmen Baptist Church</p>
                         </div>
                     </div>
 
                     <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-mobile-alt text-3xl text-accent mr-4"></i>
-                            <h3 class="text-xl font-bold">ATM / 網銀轉帳</h3>
+                            <h3 class="text-xl font-bold">ATM / Online Transfer</h3>
                         </div>
                         <div class="space-y-2 font-mono text-lg">
-                            <p class="text-green-200 text-sm font-sans">代號 (700) / 帳號</p>
+                            <p class="text-green-200 text-sm font-sans">Bank Code (700) / Account</p>
                             <p class="text-2xl font-bold tracking-wider text-wrap break-all">02813220004250</p>
-                            <p class="text-sm pt-2 border-t border-white/10 mt-2">戶名：石門浸信會</p>
+                            <p class="text-sm pt-2 border-t border-white/10 mt-2">Account Name: Shihmen Baptist Church</p>
                         </div>
                     </div>
                 </div>
@@ -428,9 +402,9 @@
                 <div class="mt-12 reveal delay-200">
                      <a href="https://app.formbricks.com/s/yvsryxzpdrbtlczs52ac841s" target="_blank" 
                         class="inline-flex items-center bg-white text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-accent hover:text-white transition duration-300 shadow-xl transform hover:-translate-y-1">
-                        <i class="fas fa-edit mr-2"></i> 填寫奉獻回報 / 線上奉獻
+                        <i class="fas fa-edit mr-2"></i> Report Giving / Online Give
                     </a>
-                    <p class="mt-6 text-sm text-green-200 opacity-80">抬頭：財團法人桃園市基督教石門浸信會 (統編：02717584)</p>
+                    <p class="mt-6 text-sm text-green-200 opacity-80">Organization: Shihmen Baptist Church of Taoyuan City (Tax ID: 02717584)</p>
                 </div>
             </div>
         </section>
@@ -442,24 +416,24 @@
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center gap-3 mb-6">
                         <img src="image/logo.png" alt="Logo" class="h-12 w-auto grayscale opacity-80" onerror="this.style.display='none'">
-                        <span class="text-2xl font-bold text-white tracking-wider">石門浸信會</span>
+                        <span class="text-2xl font-bold text-white tracking-wider">Shihmen Baptist Church</span>
                     </div>
                     <p class="leading-relaxed mb-6 font-light">
-                        建立井然有序、健康溫暖的教會。
+                        Building an orderly and warm church.
                     </p>
                 </div>
                 
                 <div class="col-span-1">
-                    <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">聯絡資訊</h4>
+                    <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">Contact</h4>
                     <ul class="space-y-4">
-                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i> <span>325006 桃園市龍潭區<br>文化路 87 號</span></li>
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i> <span>No. 87, Wenhua Road<br>Longtan, Taoyuan 325006</span></li>
                         <li class="flex items-center"><i class="fas fa-phone mr-3 text-accent"></i> (03) 471-2542</li>
                         <li class="flex items-center"><i class="fas fa-envelope mr-3 text-accent"></i> connect@smbch.org</li>
                     </ul>
                 </div>
                 
                 <div class="col-span-1">
-                     <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">關注我們</h4>
+                     <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">Follow Us</h4>
                      <div class="flex gap-4">
                         <a href="https://www.youtube.com/channel/UC-vILwk3m0q2jV3N5ws7Mng" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#FF0000] hover:text-white transition duration-300 text-xl">
                             <i class="fab fa-youtube"></i>
@@ -491,11 +465,10 @@
             const isHidden = mobileMenu.classList.contains('hidden');
             if (isHidden) {
                 mobileMenu.classList.remove('hidden');
-                // Small delay to allow display:block to clear before adding opacity
                 setTimeout(() => {
                     mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
                 }, 10);
-                document.body.style.overflow = 'hidden'; // 防止背景滾動
+                document.body.style.overflow = 'hidden';
             } else {
                 mobileMenu.classList.add('opacity-0', 'pointer-events-none');
                 setTimeout(() => {
@@ -533,13 +506,13 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // 動畫只執行一次
+                    observer.unobserve(entry.target);
                 }
             });
         };
 
         const revealOptions = {
-            threshold: 0.15, // 元素出現 15% 時觸發
+            threshold: 0.15,
             rootMargin: "0px 0px -50px 0px"
         };
 
@@ -554,18 +527,10 @@
  window.difyChatbotConfig = {
   token: 'CJwls0NZcS6v1PdJ',
   inputs: {
-    // You can define the inputs from the Start node here
-    // key is the variable name
-    // e.g.
-    // name: "NAME"
   },
   systemVariables: {
-    // user_id: 'YOU CAN DEFINE USER ID HERE',
-    // conversation_id: 'YOU CAN DEFINE CONVERSATION ID HERE, IT MUST BE A VALID UUID',
   },
   userVariables: {
-    // avatar_url: 'YOU CAN DEFINE USER AVATAR URL HERE',
-    // name: 'YOU CAN DEFINE USER NAME HERE',
   },
  }
 </script>

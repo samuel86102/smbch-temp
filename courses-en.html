@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>裝備課程 | 石門浸信會 Shihmen Baptist Church</title>
-    <meta name="description" content="石門浸信會裝備課程：近期課程資訊與報名方式。">
-    <meta property="og:title" content="裝備課程 - 石門浸信會">
-    <meta property="og:description" content="石門浸信會裝備課程：近期課程資訊與上課時間。">
+    <title>Equipping Courses | Shihmen Baptist Church</title>
+    <meta name="description" content="Shihmen Baptist Church Equipping Courses: Recent course information and registration.">
+    <meta property="og:title" content="Equipping Courses - Shihmen Baptist Church">
+    <meta property="og:description" content="Shihmen Baptist Church Equipping Courses: Course schedule and class times.">
     <meta property="og:image" content="./image/logo.png">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/x-icon" href="/image/logo.png">
@@ -84,26 +84,26 @@
     <!-- 導航欄 -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 top-0 glass shadow-sm border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-6xl">
-            <a href="index.html" class="flex items-center gap-3 group">
+            <a href="index-en.html" class="flex items-center gap-3 group">
                 <div class="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white overflow-hidden shadow-md">
                      <img src="image/logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fas fa-cross\'></i>'">
                 </div>
                 <div>
-                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">石門浸信會</span>
-                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
+                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">Shihmen Baptist Church</span>
+                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">石門浸信會</span>
                 </div>
             </a>
 
             <!-- 電腦版選單 -->
             <div class="hidden md:flex space-x-1 items-center font-medium text-gray-600">
-                <a href="index.html#about" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">關於我們</a>
-                <a href="index.html#service" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">聚會時間</a>
-                <a href="index.html#team" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">牧者團隊</a>
-                <a href="index.html#history" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">歷史沿革</a>
-                <a href="courses.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50 font-bold text-primary">裝備課程</a>
-                <a href="courses-en.html" class="px-3 py-2 text-sm font-bold text-gray-500 hover:text-primary transition">EN</a>
-                <a href="index.html#giving" class="ml-2 lg:ml-4 px-6 py-2 bg-accent text-white rounded-full hover:bg-red-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
-                    <i class="fas fa-heart mr-2 text-sm"></i>奉獻
+                <a href="index-en.html#about" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">About</a>
+                <a href="index-en.html#service" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">Services</a>
+                <a href="index-en.html#team" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">Pastoral Team</a>
+                <a href="index-en.html#history" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">History</a>
+                <a href="courses-en.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50 font-bold text-primary">Courses</a>
+                <a href="courses.html" class="px-3 py-2 text-sm font-bold text-gray-500 hover:text-primary transition">中文</a>
+                <a href="index-en.html#giving" class="ml-2 lg:ml-4 px-6 py-2 bg-accent text-white rounded-full hover:bg-red-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
+                    <i class="fas fa-heart mr-2 text-sm"></i>Give
                 </a>
             </div>
 
@@ -117,13 +117,13 @@
     <!-- 手機全屏選單 -->
     <div id="mobile-menu" class="fixed inset-0 bg-primary/95 z-40 hidden flex flex-col items-center justify-center space-y-8 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
         <button id="mobile-close" class="absolute top-6 right-6 text-white text-3xl hover:rotate-90 transition duration-300">&times;</button>
-        <a href="index.html#about" class="text-2xl text-white font-bold hover:text-cream transition">關於我們</a>
-        <a href="index.html#service" class="text-2xl text-white font-bold hover:text-cream transition">聚會時間</a>
-        <a href="index.html#team" class="text-2xl text-white font-bold hover:text-cream transition">牧者團隊</a>
-        <a href="index.html#history" class="text-2xl text-white font-bold hover:text-cream transition">歷史沿革</a>
-        <a href="courses.html" class="text-2xl text-white font-bold hover:text-cream transition">裝備課程</a>
-        <a href="courses-en.html" class="text-2xl text-white font-bold hover:text-cream transition">English</a>
-        <a href="index.html#giving" class="text-2xl text-accent bg-white px-8 py-3 rounded-full font-bold shadow-lg">奉獻支持</a>
+        <a href="index-en.html#about" class="text-2xl text-white font-bold hover:text-cream transition">About</a>
+        <a href="index-en.html#service" class="text-2xl text-white font-bold hover:text-cream transition">Services</a>
+        <a href="index-en.html#team" class="text-2xl text-white font-bold hover:text-cream transition">Pastoral Team</a>
+        <a href="index-en.html#history" class="text-2xl text-white font-bold hover:text-cream transition">History</a>
+        <a href="courses-en.html" class="text-2xl text-white font-bold hover:text-cream transition">Courses</a>
+        <a href="courses.html" class="text-2xl text-white font-bold hover:text-cream transition">中文</a>
+        <a href="index-en.html#giving" class="text-2xl text-accent bg-white px-8 py-3 rounded-full font-bold shadow-lg">Give</a>
     </div>
 
     <!-- Hero -->
@@ -135,13 +135,13 @@
         <div class="relative z-10 text-center text-white px-4 max-w-3xl mx-auto mt-16 reveal active">
             <span class="block text-accent font-bold tracking-[0.2em] mb-4 text-sm md:text-base uppercase">Equipping</span>
             <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight drop-shadow-lg">
-                裝備課程
+                Equipping Courses
             </h1>
             <p class="text-lg md:text-2xl mb-10 text-gray-100 leading-relaxed">
-                在真道中扎根，在群體中成長
+                Rooted in Truth, Growing in Community
             </p>
             <a href="#courses" class="inline-flex items-center bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:bg-cream transition duration-300 shadow-lg">
-                查看近期課程 <i class="fas fa-arrow-down ml-2"></i>
+                View Courses <i class="fas fa-arrow-down ml-2"></i>
             </a>
         </div>
     </header>
@@ -151,91 +151,91 @@
             <div class="absolute -top-12 -left-24 w-72 h-72 bg-cream rounded-full opacity-50 blur-3xl"></div>
             <div class="container mx-auto px-6 max-w-6xl relative z-10">
                 <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">近期課程</h2>
-                    <p class="text-gray-500 max-w-2xl mx-auto">教會近期裝備課程如下，歡迎按時間報名參與。</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Current Courses</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">Our recent equipping courses are listed below. Welcome to register and participate.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- 慕道班 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">慕道班</span>
-                            <span class="text-sm text-gray-500">3/8 (日)</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">Seeker Class</span>
+                            <span class="text-sm text-gray-500">3/8 (Sun)</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 每週日 上午 08:50–09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 林佩芬老師</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Every Sunday 8:50–9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Teacher Lin Pei-Fen</p>
                         </div>
                     </div>
 
                     <!-- 摩西五經 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">摩西五經</span>
-                            <span class="text-sm text-gray-500">3/1 (日)</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">Torah (Five Books of Moses)</span>
+                            <span class="text-sm text-gray-500">3/1 (Sun)</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 每週日 上午 08:50–09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 廖櫻桂老師</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Every Sunday 8:50–9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Teacher Liao Ying-Gui</p>
                         </div>
                     </div>
 
                     <!-- 婚姻成長 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">婚姻成長</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">Marriage Growth</span>
                             <span class="text-sm text-gray-500">3/14-15</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 週六 14:30-16:00 / 週日 08:50-09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 許秀敏牧師 & 婚輔團隊</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Sat 2:30-4:00 PM / Sun 8:50-9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Pastor Hsu Hsiu-Min & Marriage Team</p>
                         </div>
                     </div>
 
                     <!-- 雅各書查經 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">雅各書查經</span>
-                            <span class="text-sm text-gray-500">3/8 (日)</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">Epistle of James Bible Study</span>
+                            <span class="text-sm text-gray-500">3/8 (Sun)</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 每週日 上午 08:50–09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 陳明正牧師、丁曉玲老師</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Every Sunday 8:50–9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Pastor Chen Ming-Jheng, Teacher Ding Xiao-Ling</p>
                         </div>
                     </div>
 
                     <!-- 舊約聖經人物故事 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">舊約聖經人物故事</span>
-                            <span class="text-sm text-gray-500">4/5 (日)</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">Old Testament Character Stories</span>
+                            <span class="text-sm text-gray-500">4/5 (Sun)</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 每週日 上午 08:50–09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 魏曉梅老師、吳玉貞老師</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Every Sunday 8:50–9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Teacher Wei Xiao-Mei, Teacher Wu Yu-Jhen</p>
                         </div>
                     </div>
 
                     <!-- 宣教中的上帝 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">宣教中的上帝</span>
-                            <span class="text-sm text-gray-500">4/12 (日)</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">God in Missions</span>
+                            <span class="text-sm text-gray-500">4/12 (Sun)</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 每週日 上午 08:50–09:50</p>
-                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> 游哲誠老師</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Every Sunday 8:50–9:50 AM</p>
+                            <p class="flex items-center"><i class="fas fa-user w-6 text-accent"></i> Teacher Yu Zhe-Cheng</p>
                         </div>
                     </div>
                     <!-- CCF 查經班 -->
                     <div class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
                         <div class="flex items-start justify-between mb-4">
-                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">CCF 查經班</span>
-                            <span class="text-sm text-gray-500">常年</span>
+                            <span class="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full">CCF Bible Study</span>
+                            <span class="text-sm text-gray-500">Year-round</span>
                         </div>
                         <div class="space-y-3 text-gray-600">
-                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> 耶利米書 & 耶利米哀歌</p>
-                            <p class="flex items-center"><i class="fas fa-info-circle w-6 text-accent"></i> 分別有各時段的班級，詳情於教會一樓公布欄查看</p>
+                            <p class="flex items-center"><i class="far fa-clock w-6 text-accent"></i> Jeremiah & Lamentations</p>
+                            <p class="flex items-center"><i class="fas fa-info-circle w-6 text-accent"></i> Various time slots available. Check the bulletin board at the church for details.</p>
                         </div>
                     </div>
                 </div>
@@ -247,15 +247,15 @@
                 <div class="bg-white rounded-3xl p-10 md:p-14 shadow-soft reveal">
                     <div class="grid md:grid-cols-3 gap-10 items-center">
                         <div class="md:col-span-2">
-                            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">課程資訊洽詢</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Course Inquiry</h2>
                             <p class="text-gray-600 leading-relaxed">
-                                若您對裝備課程有興趣，或想知道更完整的課程資訊，歡迎與教會辦公室聯絡。
+                                If you are interested in our equipping courses or would like more detailed information, please contact the church office.
                             </p>
                         </div>
                         <div class="space-y-3 text-gray-600 text-sm md:text-base">
                             <p><i class="fas fa-phone-alt w-6 text-center text-primary"></i> (03) 471-2542</p>
                             <p><i class="fas fa-envelope w-6 text-center text-primary"></i> connect@smbch.org</p>
-                            <p><i class="fas fa-map-marker-alt w-6 text-center text-primary"></i> 桃園市龍潭區文化路 87 號</p>
+                            <p><i class="fas fa-map-marker-alt w-6 text-center text-primary"></i> No. 87, Wenhua Road, Longtan, Taoyuan</p>
                         </div>
                     </div>
                 </div>
@@ -269,35 +269,35 @@
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center gap-3 mb-6">
                         <img src="image/logo.png" alt="Logo" class="h-12 w-auto grayscale opacity-80" onerror="this.style.display='none'">
-                        <span class="text-2xl font-bold text-white tracking-wider">石門浸信會</span>
+                        <span class="text-2xl font-bold text-white tracking-wider">Shihmen Baptist Church</span>
                     </div>
                     <p class="leading-relaxed mb-6 font-light">
-                        建立井然有序、健康溫暖的教會。
+                        Building an orderly and warm church.
                     </p>
                 </div>
 
                 <div class="col-span-1">
-                    <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">聯絡資訊</h4>
+                    <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">Contact</h4>
                     <ul class="space-y-4">
-                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i> <span>325006 桃園市龍潭區<br>文化路 87 號</span></li>
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i> <span>No. 87, Wenhua Road<br>Longtan, Taoyuan 325006</span></li>
                         <li class="flex items-center"><i class="fas fa-phone mr-3 text-accent"></i> (03) 471-2542</li>
                         <li class="flex items-center"><i class="fas fa-envelope mr-3 text-accent"></i> connect@smbch.org</li>
                     </ul>
                 </div>
 
                 <div class="col-span-1">
-                    <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">關注我們</h4>
-                    <div class="flex gap-4">
+                     <h4 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">Follow Us</h4>
+                     <div class="flex gap-4">
                         <a href="https://www.youtube.com/channel/UC-vILwk3m0q2jV3N5ws7Mng" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#FF0000] hover:text-white transition duration-300 text-xl">
                             <i class="fab fa-youtube"></i>
                         </a>
                         <a href="https://www.facebook.com/" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition duration-300 text-xl">
-                            <i class="fab fa-facebook-f"></i>
+                             <i class="fab fa-facebook-f"></i>
                         </a>
                         <a href="https://www.instagram.com/smbc_ag/" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition duration-300 text-xl">
                             <i class="fab fa-instagram"></i>
                         </a>
-                    </div>
+                     </div>
                 </div>
             </div>
 
