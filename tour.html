@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>環境導覽 | 石門浸信會 Shihmen Baptist Church</title>
+    <meta name="description" content="石門浸信會環境導覽，帶您認識教會各樓層空間。">
+    <link rel="icon" type="image/x-icon" href="./image/logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3A5A40',
+                        secondary: '#588157',
+                        accent: '#BC4749',
+                        cream: '#F2E8CF',
+                        dark: '#333333',
+                        light: '#FDFBF7',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        play: ['Playfair Display', 'serif'],
+                        serif: ['Noto Serif TC', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tab-btn.active {
+            box-shadow: 0 4px 12px rgba(58, 90, 64, 0.35);
+        }
+        .tab-btn:not(.active):hover {
+            border-color: #3A5A40 !important;
+            color: #3A5A40 !important;
+        }
+        .gallery-floor .grid {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gallery-item {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+        .gallery-item.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .lightbox.open {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-[#FAF9F6] text-dark font-sans antialiased">
+
+    <!-- 導航欄 -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 top-0 bg-white/95 shadow-sm border-b border-gray-100">
+        <div class="container mx-auto flex justify-between items-center max-w-6xl">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white overflow-hidden shadow-md">
+                    <img src="image/logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fas fa-cross\'></i>'">
+                </div>
+                <div>
+                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">石門浸信會</span>
+                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex space-x-1 items-center font-medium text-gray-600">
+                <a href="index.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">回到首頁</a>
+                <a href="courses.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">裝備課程</a>
+                <a href="en/index.html" class="p-2 text-gray-500 hover:text-primary transition" title="English">
+                    <i class="fas fa-globe text-lg"></i>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-2 md:hidden">
+                <a href="en/index.html" class="p-2 text-primary hover:text-accent transition" title="English">
+                    <i class="fas fa-globe text-xl"></i>
+                </a>
+                <button id="mobile-toggle" class="text-primary text-2xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 手機全屏選單 -->
+    <div id="mobile-menu" class="fixed inset-0 bg-primary/95 z-40 hidden flex flex-col items-center justify-center space-y-8 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
+        <button id="mobile-close" class="absolute top-6 right-6 text-white text-3xl hover:rotate-90 transition duration-300">&times;</button>
+        <a href="index.html" class="text-2xl text-white font-bold hover:text-cream transition">回到首頁</a>
+        <a href="courses.html" class="text-2xl text-white font-bold hover:text-cream transition">裝備課程</a>
+    </div>
+
+    <!-- Header -->
+    <header class="relative pt-24 pb-16 bg-white overflow-hidden">
+        <div class="absolute top-0 right-0 -m-20 w-80 h-80 bg-cream rounded-full opacity-50 blur-3xl"></div>
+        <div class="container mx-auto px-6 max-w-6xl relative z-10 text-center">
+            <div class="reveal">
+                <h2 class="text-accent font-bold tracking-widest text-sm uppercase mb-3">Church Tour</h2>
+                <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4 leading-tight">環境導覽</h1>
+                <p class="text-gray-500 max-w-2xl mx-auto text-lg">認識我們聚會與團契的地點</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="sticky top-[72px] z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex flex-wrap gap-2 py-4 justify-center">
+                <button class="tab-btn active px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 border-2 border-primary bg-primary text-white shadow-md" data-floor="B1">
+                    <i class="fas fa-music mr-1.5"></i>B1
+                </button>
+                <button class="tab-btn px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 border-2 border-gray-200 text-gray-500 hover:border-primary hover:text-primary" data-floor="1F">
+                    <i class="fas fa-building mr-1.5"></i>1F
+                </button>
+                <button class="tab-btn px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 border-2 border-gray-200 text-gray-500 hover:border-primary hover:text-primary" data-floor="2F">
+                    <i class="fas fa-church mr-1.5"></i>2F
+                </button>
+                <button class="tab-btn px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 border-2 border-gray-200 text-gray-500 hover:border-primary hover:text-primary" data-floor="3F">
+                    <i class="fas fa-users mr-1.5"></i>3F
+                </button>
+                <button class="tab-btn px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 border-2 border-gray-200 text-gray-500 hover:border-primary hover:text-primary" data-floor="4F">
+                    <i class="fas fa-heart mr-1.5"></i>4F
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Content -->
+    <main class="py-12 bg-[#FAF9F6]">
+        <div class="container mx-auto px-6 max-w-6xl">
+
+            <!-- B1 -->
+            <div id="gallery-B1" class="gallery-floor">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/B1/新世代敬拜中心.jpg" alt="新世代敬拜中心" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">新世代敬拜中心</h3>
+                            <p class="text-sm text-gray-500">週六崇拜聚會場地</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1F -->
+            <div id="gallery-1F" class="gallery-floor hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/1F/辦公室.jpg" alt="辦公室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">辦公室</h3>
+                            <p class="text-sm text-gray-500">行政辦公空間</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/1F/合班教室.jpg" alt="合班教室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">合班教室</h3>
+                            <p class="text-sm text-gray-500">聚會與課程空間</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/1F/分班教室.jpg" alt="分班教室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">分班教室</h3>
+                            <p class="text-sm text-gray-500">小組空間</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/1F/回收區.jpg" alt="回收區" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">回收區</h3>
+                            <p class="text-sm text-gray-500">垃圾處理區</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/1F/洗手間&飲水機.jpg" alt="洗手間與飲水機" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">洗手間與飲水機</h3>
+							<!--
+                            <p class="text-sm text-gray-500">公共衛浴設施</p>
+							-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2F -->
+            <div id="gallery-2F" class="gallery-floor hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/2F/大堂.jpg" alt="大堂" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">大堂</h3>
+                            <p class="text-sm text-gray-500">主日崇拜聚會場地</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/2F/交誼廳.jpg" alt="交誼廳" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">交誼廳</h3>
+                            <p class="text-sm text-gray-500">新人接待與交流空間</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3F -->
+            <div id="gallery-3F" class="gallery-floor hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/3F/會堂.jpg" alt="會堂" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">會堂</h3>
+							<p class="text-sm text-gray-500">主日崇拜聚會場所</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/3F/親子室.jpg" alt="親子室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">親子室</h3>
+                            <p class="text-sm text-gray-500">幼兒照護空間</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4F -->
+            <div id="gallery-4F" class="gallery-floor hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/4F/禱告室.jpg" alt="禱告室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">禱告室</h3>
+							<!--
+                            <p class="text-sm text-gray-500">安靜禱告的空間</p>
+							-->
+
+
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/4F/副堂.jpg" alt="副堂" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">副堂</h3>
+                            <p class="text-sm text-gray-500">小組、會議空間</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item group cursor-pointer rounded-2xl overflow-hidden shadow-soft bg-white hover:shadow-xl transition-all duration-300" onclick="openLightbox(this)">
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="image/tour/4F/幼兒教室.jpg" alt="幼兒教室" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">幼兒教室</h3>
+                            <p class="text-sm text-gray-500">幼兒崇拜空間</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-accent transition z-10">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-400 py-12 border-t-[6px] border-accent">
+        <div class="container mx-auto px-6 max-w-6xl text-center">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <img src="image/logo.png" alt="Logo" class="h-10 w-auto grayscale opacity-80" onerror="this.style.display='none'">
+                <span class="text-xl font-bold text-white tracking-wider">石門浸信會</span>
+            </div>
+            <p class="leading-relaxed mb-4">
+                325006 桃園市龍潭區文化路 87 號 | (03) 471-2542
+            </p>
+            <p class="text-sm">&copy; 2026 Shihmen Baptist Church. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const galleryFloors = document.querySelectorAll('.gallery-floor');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const floor = btn.dataset.floor;
+
+                tabBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.add('border-gray-200', 'text-gray-500', 'shadow-sm');
+                    b.classList.remove('border-primary', 'bg-primary', 'text-white', 'shadow-md');
+                });
+                btn.classList.add('active');
+                btn.classList.remove('border-gray-200', 'text-gray-500', 'shadow-sm');
+                btn.classList.add('border-primary', 'bg-primary', 'text-white', 'shadow-md');
+
+                galleryFloors.forEach(g => {
+                    g.classList.add('hidden');
+                });
+                const target = document.getElementById('gallery-' + floor);
+                if (target) {
+                    target.classList.remove('hidden');
+                    setTimeout(() => {
+                        target.querySelectorAll('.gallery-item').forEach((item, i) => {
+                            setTimeout(() => item.classList.add('show'), i * 80);
+                        });
+                    }, 50);
+                }
+            });
+        });
+
+        // Initial animation
+        document.querySelectorAll('#gallery-B1 .gallery-item').forEach((item, i) => {
+            setTimeout(() => item.classList.add('show'), i * 80);
+        });
+
+        // Lightbox
+        function openLightbox(el) {
+            const img = el.querySelector('img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Mobile menu
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+        mobileClose.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Scroll navbar
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        // Reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+        const observer = new IntersectionObserver(revealCallback, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
