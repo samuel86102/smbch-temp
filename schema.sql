@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- 活動發布（公開頁 /events?id=xxx）
 CREATE TABLE IF NOT EXISTS `event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(16) NOT NULL,                             -- 隨機 base62 短碼(非自增,用於 /events/<id>)
   `title` varchar(255) NOT NULL,
   `content` longtext DEFAULT NULL,                       -- WYSIWYG 內文（已清洗的 HTML）
   `image_path` varchar(255) DEFAULT NULL,                -- 上傳圖片相對路徑

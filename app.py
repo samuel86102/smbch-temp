@@ -8,9 +8,12 @@
 """
 import os
 import uuid
+import secrets
+import string
 from functools import wraps
 
 import bleach
+import pymysql
 from flask import (
     Flask, request, session, redirect, url_for, render_template,
     send_from_directory, abort, flash,
@@ -42,6 +45,13 @@ ALLOWED_ATTRS = {
 app = Flask(__name__, static_folder="static")
 app.secret_key = os.environ["SECRET_KEY"]
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB 上傳上限
+
+# 活動 id：隨機 base62 短碼（非自增、不可列舉），用於 /events/<id>
+_ID_ALPHABET = string.ascii_letters + string.digits
+
+
+def gen_id(n=12):
+    return "".join(secrets.choice(_ID_ALPHABET) for _ in range(n))
 
 
 # ---------- 認證 ----------
@@ -82,18 +92,12 @@ def logout():
 # ---------- 公開活動頁 ----------
 @app.route("/events")
 def events():
-    event_id = request.args.get("id", type=int)
+    # 向後相容：舊網址 /events?id=xxx → 301 轉到 /events/<id>
+    legacy_id = request.args.get("id")
+    if legacy_id:
+        return redirect(url_for("event_detail", event_id=legacy_id), code=301)
     conn = get_connection()
     with conn.cursor() as cur:
-        if event_id:
-            cur.execute(
-                "SELECT * FROM `event` WHERE id = %s AND published = 1", (event_id,)
-            )
-            event = cur.fetchone()
-            conn.close()
-            if not event:
-                abort(404)
-            return render_template("event_detail.html", event=event)
         cur.execute(
             "SELECT id, title, image_path, createtime FROM `event` "
             "WHERE published = 1 ORDER BY createtime DESC"
@@ -101,6 +105,20 @@ def events():
         items = cur.fetchall()
     conn.close()
     return render_template("events_list.html", events=items)
+
+
+@app.route("/events/<event_id>")
+def event_detail(event_id):
+    conn = get_connection()
+    with conn.cursor() as cur:
+        cur.execute(
+            "SELECT * FROM `event` WHERE id = %s AND published = 1", (event_id,)
+        )
+        event = cur.fetchone()
+    conn.close()
+    if not event:
+        abort(404)
+    return render_template("event_detail.html", event=event)
 
 
 # ---------- 後台 ----------
@@ -128,7 +146,7 @@ def admin_new():
     return render_template("admin/edit.html", event=None)
 
 
-@app.route("/admin/edit/<int:event_id>", methods=["GET", "POST"])
+@app.route("/admin/edit/<event_id>", methods=["GET", "POST"])
 @login_required
 def admin_edit(event_id):
     conn = get_connection()
@@ -145,7 +163,7 @@ def admin_edit(event_id):
     return render_template("admin/edit.html", event=event)
 
 
-@app.route("/admin/delete/<int:event_id>", methods=["POST"])
+@app.route("/admin/delete/<event_id>", methods=["POST"])
 @login_required
 def admin_delete(event_id):
     conn = get_connection()
@@ -185,11 +203,17 @@ def _save_event(existing):
                 (title, content, image_path, published, existing["id"]),
             )
         else:
-            cur.execute(
-                "INSERT INTO `event` (title, content, image_path, published, author_id) "
-                "VALUES (%s, %s, %s, %s, %s)",
-                (title, content, image_path, published, session.get("user_id")),
-            )
+            # 隨機 id，極罕見碰撞時重試
+            for _ in range(5):
+                try:
+                    cur.execute(
+                        "INSERT INTO `event` (id, title, content, image_path, published, author_id) "
+                        "VALUES (%s, %s, %s, %s, %s, %s)",
+                        (gen_id(), title, content, image_path, published, session.get("user_id")),
+                    )
+                    break
+                except pymysql.err.IntegrityError:
+                    continue
     conn.close()
 
 

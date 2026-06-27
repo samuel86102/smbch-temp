@@ -2,7 +2,7 @@
 
 教會官方網站。前台為靜態行銷頁(首頁、裝備課程、環境導覽、英文版),並內建一套
 **類 WordPress 的活動發布後台**:管理員登入後可發布「標題 + 所見即所得內文 + 圖片」的活動,
-公開網址為 `/events?id=xxx`。
+公開網址為 `/events/<id>`(id 為隨機短碼)。
 
 整站由 **Python (Flask)** 統一服務 —— 既有靜態頁與動態活動頁皆由同一個應用程式提供。
 
@@ -36,7 +36,7 @@
 ├── templates/          # Jinja2 模板(動態頁)
 │   ├── base.html           # 共用版型 + 導覽列 + footer
 │   ├── events_list.html    # /events 活動列表
-│   ├── event_detail.html   # /events?id=xxx 單篇活動
+│   ├── event_detail.html   # /events/<id> 單篇活動
 │   ├── login.html          # /login 後台登入
 │   └── admin/
 │       ├── dashboard.html  # /admin 管理列表
@@ -68,7 +68,7 @@
 ### `event` — 活動發布
 | 欄位 | 型別 | 說明 |
 |---|---|---|
-| `id` | int PK | 活動編號(對應 `/events?id=`) |
+| `id` | varchar(16) PK | 隨機 base62 短碼(非自增),對應 `/events/<id>` |
 | `title` | varchar(255) | 標題 |
 | `content` | longtext | WYSIWYG 內文(已清洗的 HTML) |
 | `image_path` | varchar(255) | 封面圖相對路徑(`uploads/xxx.jpg`) |
@@ -138,7 +138,8 @@ python -m venv venv
 | `/` | GET | 公開 | 首頁(index.html) |
 | `/courses.html`、`/tour.html`、`/en/...`、`/image/...` | GET | 公開 | 既有靜態頁 / 資產 |
 | `/events` | GET | 公開 | 已發布活動列表 |
-| `/events?id=<id>` | GET | 公開 | 單篇活動(未發布或不存在回 404) |
+| `/events/<id>` | GET | 公開 | 單篇活動(未發布或不存在回 404) |
+| `/events?id=<id>` | GET | 公開 | 舊網址,301 轉址至 `/events/<id>` |
 | `/login` | GET/POST | 公開 | 後台登入 |
 | `/logout` | GET | — | 登出 |
 | `/admin` | GET | 需登入 | 活動管理列表 |
@@ -154,7 +155,7 @@ python -m venv venv
 2. 進入 `/admin`,點「新增活動」。
 3. 填寫**標題**、用 **Quill 編輯器**撰寫內文、上傳**封面圖片**。
 4. 勾選「立即發布」(取消勾選則存為草稿)後儲存。
-5. 公開頁面即出現於 `/events` 列表,單篇網址為 `/events?id=<id>`。
+5. 公開頁面即出現於 `/events` 列表,單篇網址為 `/events/<id>`(id 為隨機短碼)。
 
 **安全性**:內文以 `bleach` 白名單清洗(`app.py` 的 `ALLOWED_TAGS` / `ALLOWED_ATTRS`),
 `<script>` 等危險標籤會被移除;圖片僅允許 `jpg/png/webp/gif`,檔名以 UUID 重新命名,上傳上限 16MB。

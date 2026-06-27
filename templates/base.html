@@ -27,6 +27,15 @@
     <style>
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     </style>
+
+    <!-- Open Graph / 社群分享預覽（子模板可覆寫各區塊） -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="石門浸信會 Shihmen Baptist Church">
+    <meta property="og:title" content="{% block og_title %}石門浸信會 Shihmen Baptist Church{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}建立井然有序、健康溫暖的教會。桃園龍潭，歡迎加入主日崇拜與事工。{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.url_root }}image/logo.png{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta name="twitter:card" content="summary_large_image">
     {% block head %}{% endblock %}
 </head>
 <body class="bg-[#FAF9F6] text-dark font-sans antialiased selection:bg-accent selection:text-white min-h-screen flex flex-col">

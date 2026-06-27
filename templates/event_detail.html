@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ event.title }} | 石門浸信會{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ event.title }}{% endblock %}
+{% block og_description %}{{ event.content | striptags | truncate(150) }}{% endblock %}
+{% block og_image %}{% if event.image_path %}{{ request.url_root }}static/{{ event.image_path }}{% else %}{{ request.url_root }}image/logo.png{% endif %}{% endblock %}
 {% block head %}
-<meta property="og:title" content="{{ event.title }}">
-{% if event.image_path %}<meta property="og:image" content="/static/{{ event.image_path }}">{% endif %}
 <style>
     .event-content { line-height: 1.9; }
     .event-content h1, .event-content h2, .event-content h3 { font-weight: 700; color: #3A5A40; margin: 1.2em 0 0.5em; }

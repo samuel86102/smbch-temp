@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}最新活動 | 石門浸信會{% endblock %}
+{% block og_title %}最新活動 | 石門浸信會{% endblock %}
+{% block og_description %}石門浸信會最新活動消息與報名資訊。{% endblock %}
 {% block content %}
 <section class="max-w-6xl mx-auto px-6 py-12">
     <div class="text-center mb-12">
@@ -10,7 +12,7 @@
     {% if events %}
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {% for e in events %}
-        <a href="/events?id={{ e.id }}" class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition transform hover:-translate-y-1 duration-200 flex flex-col">
+        <a href="/events/{{ e.id }}" class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition transform hover:-translate-y-1 duration-200 flex flex-col">
             <div class="aspect-video bg-cream overflow-hidden">
                 {% if e.image_path %}
                 <img src="/static/{{ e.image_path }}" alt="{{ e.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
