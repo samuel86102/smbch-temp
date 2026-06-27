@@ -6,7 +6,7 @@
 {% block og_image %}{% if event.image_path %}{{ request.url_root }}static/{{ event.image_path }}{% else %}{{ request.url_root }}image/logo.png{% endif %}{% endblock %}
 {% block head %}
 <style>
-    .event-content { line-height: 1.9; }
+    .event-content { line-height: 1.9; overflow-wrap: break-word; word-break: break-word; }
     .event-content h1, .event-content h2, .event-content h3 { font-weight: 700; color: #3A5A40; margin: 1.2em 0 0.5em; }
     .event-content h1 { font-size: 1.6rem; } .event-content h2 { font-size: 1.35rem; } .event-content h3 { font-size: 1.15rem; }
     .event-content p { margin: 0.8em 0; }
