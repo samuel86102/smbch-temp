@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{# 後台用精簡導覽列：共用 base.html 的 head / footer，只覆寫 nav 與其 JS #}
+
+{% block navbar %}
+    <nav class="w-full bg-white border-b border-gray-100 shadow-sm py-3 px-6">
+        <div class="container mx-auto flex justify-between items-center max-w-6xl">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="h-9 w-9 bg-primary rounded-full flex items-center justify-center text-white overflow-hidden shadow">
+                    <img src="/image/logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fas fa-cross\'></i>'">
+                </div>
+                <div class="leading-tight">
+                    <span class="text-lg font-bold text-primary">石門浸信會</span>
+                    <span class="text-xs text-secondary block">後台管理</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-1 text-sm font-medium text-gray-600">
+                <a href="/" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-house mr-1"></i><span class="hidden sm:inline">檢視網站</span></a>
+                {% if session.get('user_id') %}
+                <a href="/admin" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-list mr-1"></i><span class="hidden sm:inline">活動管理</span></a>
+                <a href="/logout" class="px-3 py-2 rounded-full text-gray-400 hover:text-accent hover:bg-gray-50 transition"><i class="fas fa-sign-out-alt mr-1"></i><span class="hidden sm:inline">登出</span></a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block nav_script %}{% endblock %}
