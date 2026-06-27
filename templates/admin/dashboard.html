@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}活動管理 | 後台{% endblock %}
+{% block content %}
+<section class="max-w-5xl mx-auto px-6 py-12">
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-primary">活動管理</h1>
+            <p class="text-sm text-gray-400 mt-1">登入身分：{{ session.get('account') }}</p>
+        </div>
+        <a href="/admin/new" class="bg-accent text-white px-5 py-2.5 rounded-full font-medium hover:bg-red-700 transition shadow"><i class="fas fa-plus mr-2"></i>新增活動</a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-cream/60 text-primary">
+                <tr>
+                    <th class="text-left px-5 py-3 font-semibold">標題</th>
+                    <th class="text-left px-5 py-3 font-semibold w-28">狀態</th>
+                    <th class="text-left px-5 py-3 font-semibold w-36 hidden sm:table-cell">建立時間</th>
+                    <th class="text-right px-5 py-3 font-semibold w-40">操作</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for e in events %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-5 py-3 font-medium text-dark">{{ e.title }}</td>
+                    <td class="px-5 py-3">
+                        {% if e.published %}
+                        <span class="text-xs bg-secondary/15 text-secondary px-2 py-1 rounded-full">已發布</span>
+                        {% else %}
+                        <span class="text-xs bg-gray-200 text-gray-500 px-2 py-1 rounded-full">草稿</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-5 py-3 text-gray-400 hidden sm:table-cell">{{ e.createtime.strftime('%Y.%m.%d') }}</td>
+                    <td class="px-5 py-3 text-right whitespace-nowrap">
+                        <a href="/events?id={{ e.id }}" target="_blank" class="text-gray-400 hover:text-primary px-2" title="檢視"><i class="fas fa-eye"></i></a>
+                        <a href="/admin/edit/{{ e.id }}" class="text-secondary hover:text-primary px-2" title="編輯"><i class="fas fa-pen"></i></a>
+                        <form method="post" action="/admin/delete/{{ e.id }}" class="inline" onsubmit="return confirm('確定刪除「{{ e.title }}」？');">
+                            <button class="text-gray-400 hover:text-accent px-2" title="刪除"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="px-5 py-12 text-center text-gray-400">尚無活動，點右上角「新增活動」開始。</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

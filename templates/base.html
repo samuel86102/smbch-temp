@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}石門浸信會 Shihmen Baptist Church{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="/image/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                colors: {
+                    primary: '#3A5A40', secondary: '#588157', accent: '#BC4749',
+                    cream: '#F2E8CF', dark: '#333333', light: '#FDFBF7',
+                },
+                fontFamily: {
+                    sans: ['Noto Sans TC', 'sans-serif'],
+                    play: ['Playfair Display', 'serif'],
+                    serif: ['Noto Serif TC', 'serif'],
+                },
+                boxShadow: { 'soft': '0 10px 40px -10px rgba(0,0,0,0.08)' }
+            }}
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-[#FAF9F6] text-dark font-sans antialiased selection:bg-accent selection:text-white min-h-screen flex flex-col">
+
+    <nav class="w-full z-50 py-4 px-6 glass shadow-sm border-b border-gray-100 bg-white/90 backdrop-blur">
+        <div class="container mx-auto flex justify-between items-center max-w-6xl">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white overflow-hidden shadow-md">
+                    <img src="/image/logo.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <span class="text-xl font-bold text-primary tracking-wide group-hover:text-accent transition-colors">石門浸信會</span>
+                    <span class="text-xs text-secondary block font-play tracking-widest hidden md:block">SHIHMEN BAPTIST CHURCH</span>
+                </div>
+            </a>
+            <div class="flex space-x-1 items-center font-medium text-gray-600">
+                <a href="/" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">首頁</a>
+                <a href="/events" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50">最新活動</a>
+                <a href="/courses.html" class="px-4 py-2 hover:text-primary transition rounded-full hover:bg-gray-50 hidden sm:inline">裝備課程</a>
+                {% if session.get('user_id') %}
+                    <a href="/admin" class="px-4 py-2 text-primary font-bold hover:text-accent transition">後台</a>
+                    <a href="/logout" class="px-3 py-2 text-gray-400 hover:text-accent transition" title="登出"><i class="fas fa-sign-out-alt"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="max-w-4xl mx-auto w-full px-6 mt-4">
+            {% for m in messages %}
+            <div class="bg-cream border border-secondary/40 text-primary px-4 py-3 rounded-lg mb-2 text-sm">{{ m }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="flex-1 w-full">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-primary text-cream/80 py-8 mt-16">
+        <div class="max-w-6xl mx-auto px-6 text-center text-sm">
+            <p>© 石門浸信會 Shihmen Baptist Church</p>
+        </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

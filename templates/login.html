@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}登入 | 石門浸信會後台{% endblock %}
+{% block content %}
+<section class="max-w-md mx-auto px-6 py-16">
+    <div class="bg-white rounded-2xl shadow-soft p-8">
+        <div class="text-center mb-8">
+            <div class="h-14 w-14 bg-primary rounded-full flex items-center justify-center text-white mx-auto mb-4 shadow-md">
+                <i class="fas fa-lock text-xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-primary">後台登入</h1>
+        </div>
+        <form method="post" class="space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">帳號</label>
+                <input name="account" required autofocus class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary/40">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">密碼</label>
+                <input name="password" type="password" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary/40">
+            </div>
+            <button class="w-full bg-primary text-white rounded-lg py-2.5 font-medium hover:bg-secondary transition shadow">登入</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

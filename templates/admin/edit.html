@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ '編輯' if event else '新增' }}活動 | 後台{% endblock %}
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<style>
+    #editor { min-height: 320px; background: #fff; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; }
+    .ql-toolbar.ql-snow, .ql-container.ql-snow { border-color: #e5e7eb; }
+    .ql-toolbar.ql-snow { border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; }
+</style>
+{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-12">
+    <a href="/admin" class="text-sm text-secondary hover:text-primary transition"><i class="fas fa-arrow-left mr-1"></i>返回管理列表</a>
+    <h1 class="text-2xl font-bold text-primary mt-4 mb-8">{{ '編輯活動' if event else '新增活動' }}</h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6" onsubmit="document.getElementById('content-input').value = quill.root.innerHTML;">
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">標題</label>
+            <input name="title" required value="{{ event.title if event else '' }}" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary/40">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">封面圖片</label>
+            {% if event and event.image_path %}
+            <img src="/static/{{ event.image_path }}" class="h-32 rounded-lg mb-2 object-cover">
+            <p class="text-xs text-gray-400 mb-2">上傳新圖片即會取代目前封面（留空則保留）。</p>
+            {% endif %}
+            <input name="image" type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-primary file:text-white hover:file:bg-secondary">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">內文</label>
+            <div id="editor"></div>
+            <input type="hidden" name="content" id="content-input">
+        </div>
+
+        <label class="flex items-center gap-2 text-sm text-gray-700">
+            <input type="checkbox" name="published" value="1" {{ 'checked' if (not event) or event.published else '' }} class="rounded text-primary focus:ring-primary">
+            立即發布（取消勾選則存為草稿）
+        </label>
+
+        <div class="flex gap-3">
+            <button class="bg-primary text-white px-6 py-2.5 rounded-full font-medium hover:bg-secondary transition shadow">儲存</button>
+            <a href="/admin" class="px-6 py-2.5 rounded-full font-medium text-gray-500 hover:bg-gray-100 transition">取消</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        placeholder: '輸入活動內文…',
+        modules: { toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['blockquote', 'link'],
+            ['clean']
+        ]}
+    });
+    {% if event and event.content %}
+    quill.clipboard.dangerouslyPasteHTML({{ event.content | tojson }});
+    {% endif %}
+</script>
+{% endblock %}

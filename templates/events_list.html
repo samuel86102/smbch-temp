@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}最新活動 | 石門浸信會{% endblock %}
+{% block content %}
+<section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+        <p class="text-secondary font-play tracking-widest text-sm">EVENTS</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-primary mt-2">最新活動</h1>
+    </div>
+
+    {% if events %}
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {% for e in events %}
+        <a href="/events?id={{ e.id }}" class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition transform hover:-translate-y-1 duration-200 flex flex-col">
+            <div class="aspect-video bg-cream overflow-hidden">
+                {% if e.image_path %}
+                <img src="/static/{{ e.image_path }}" alt="{{ e.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center text-secondary/40 text-5xl"><i class="fas fa-church"></i></div>
+                {% endif %}
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <p class="text-xs text-gray-400 mb-2">{{ e.createtime.strftime('%Y.%m.%d') }}</p>
+                <h2 class="text-lg font-bold text-dark group-hover:text-primary transition line-clamp-2">{{ e.title }}</h2>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-gray-400 py-20">目前尚無活動。</p>
+    {% endif %}
+</section>
+{% endblock %}
