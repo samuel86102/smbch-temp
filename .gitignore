@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 static/uploads/*
 !static/uploads/.gitkeep
+# 活動 markdown 由系統自動生成（資料庫為來源），不進版控
+knowledge/events/*.md

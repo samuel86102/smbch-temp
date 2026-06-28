@@ -18,6 +18,8 @@
                 <a href="/" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-house mr-1"></i><span class="hidden sm:inline">檢視網站</span></a>
                 {% if session.get('user_id') %}
                 <a href="/admin" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-list mr-1"></i><span class="hidden sm:inline">活動管理</span></a>
+                <a href="/admin/knowledge" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-book mr-1"></i><span class="hidden sm:inline">知識庫</span></a>
+                <a href="/admin/settings" class="px-3 py-2 rounded-full hover:text-primary hover:bg-gray-50 transition"><i class="fas fa-robot mr-1"></i><span class="hidden sm:inline">問答設定</span></a>
                 <a href="/logout" class="px-3 py-2 rounded-full text-gray-400 hover:text-accent hover:bg-gray-50 transition"><i class="fas fa-sign-out-alt mr-1"></i><span class="hidden sm:inline">登出</span></a>
                 {% endif %}
             </div>

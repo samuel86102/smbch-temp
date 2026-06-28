@@ -1,0 +1,23 @@
+{% extends "base_admin.html" %}
+{% block title %}問答設定 | 後台{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-12">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-primary">問答設定 · System Prompt</h1>
+        <p class="text-sm text-gray-400 mt-1">設定聊天機器人的角色、語氣與回答規則。每次回答都會套用這段提示。</p>
+    </div>
+
+    <form method="post" class="space-y-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">System Prompt</label>
+            <textarea name="system_prompt" rows="22" class="w-full border border-gray-200 rounded-lg px-4 py-3 font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40">{{ system_prompt }}</textarea>
+            <p class="text-xs text-gray-400 mt-1">提示：可在這裡規範語氣、限制只依資料作答、要求用提問語言回覆等。</p>
+        </div>
+
+        <div class="flex gap-3">
+            <button class="bg-primary text-white px-6 py-2.5 rounded-full font-medium hover:bg-secondary transition shadow">儲存</button>
+            <a href="/admin" class="px-6 py-2.5 rounded-full font-medium text-gray-500 hover:bg-gray-100 transition">返回</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

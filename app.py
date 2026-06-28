@@ -10,6 +10,7 @@ import os
 import uuid
 import secrets
 import string
+from datetime import datetime
 from functools import wraps
 
 import bleach
@@ -22,6 +23,11 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
 from db import get_connection
+from chatbot import (
+    chatbot_bp, sync_event_md, remove_event_md,
+    load_categories, load_system_prompt,
+    KNOWLEDGE_DIR, SYSTEM_PROMPT_FILE,
+)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(ROOT, "static", "uploads")
@@ -45,6 +51,7 @@ ALLOWED_ATTRS = {
 app = Flask(__name__, static_folder="static")
 app.secret_key = os.environ["SECRET_KEY"]
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB 上傳上限
+app.register_blueprint(chatbot_bp)  # /api/chat（RAG 問答）
 
 # 活動 id：隨機 base62 短碼（非自增、不可列舉），用於 /events/<id>
 _ID_ALPHABET = string.ascii_letters + string.digits
@@ -170,8 +177,117 @@ def admin_delete(event_id):
     with conn.cursor() as cur:
         cur.execute("DELETE FROM `event` WHERE id = %s", (event_id,))
     conn.close()
+    remove_event_md(event_id)  # 同步移除知識庫 markdown
     flash("活動已刪除")
     return redirect(url_for("admin"))
+
+
+# ---------- 後台：知識庫管理 ----------
+def _safe_knowledge_path(category, filename, must_exist=False):
+    """把 category/filename 解析為 knowledge/ 內的安全路徑；非法則回 None。"""
+    valid = {c["id"] for c in load_categories() if c["id"] != "events"}
+    if category not in valid:
+        return None
+    fname = secure_filename(filename or "")
+    if not fname:
+        return None
+    if not fname.endswith(".md"):
+        fname += ".md"
+    folder = os.path.join(KNOWLEDGE_DIR, category)
+    path = os.path.abspath(os.path.join(folder, fname))
+    # 確保仍在該類別資料夾內（防目錄穿越）
+    if os.path.commonpath([path, os.path.abspath(folder)]) != os.path.abspath(folder):
+        return None
+    if must_exist and not os.path.isfile(path):
+        return None
+    return path
+
+
+@app.route("/admin/knowledge")
+@login_required
+def admin_knowledge():
+    cats = []
+    for c in load_categories():
+        folder = os.path.join(KNOWLEDGE_DIR, c["id"])
+        files = sorted(f for f in os.listdir(folder) if f.endswith(".md")) \
+            if os.path.isdir(folder) else []
+        cats.append({**c, "files": files, "readonly": c["id"] == "events"})
+    return render_template("admin/knowledge.html", categories=cats)
+
+
+@app.route("/admin/knowledge/edit", methods=["GET", "POST"])
+@login_required
+def admin_knowledge_edit():
+    if request.method == "POST":
+        category = request.form.get("category", "")
+        filename = request.form.get("filename", "")
+        content = request.form.get("content", "")
+        path = _safe_knowledge_path(category, filename)
+        if not path:
+            flash("無效的類別或檔名")
+            return redirect(url_for("admin_knowledge"))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(content)
+        flash("知識文件已儲存")
+        return redirect(url_for("admin_knowledge"))
+
+    category = request.args.get("category", "")
+    filename = request.args.get("filename", "")
+    content = ""
+    if filename:
+        path = _safe_knowledge_path(category, filename, must_exist=True)
+        if path:
+            with open(path, encoding="utf-8") as f:
+                content = f.read()
+    return render_template(
+        "admin/knowledge_edit.html",
+        category=category, filename=filename, content=content,
+        categories=[c for c in load_categories() if c["id"] != "events"],
+    )
+
+
+@app.route("/admin/knowledge/delete", methods=["POST"])
+@login_required
+def admin_knowledge_delete():
+    path = _safe_knowledge_path(
+        request.form.get("category", ""), request.form.get("filename", ""),
+        must_exist=True,
+    )
+    if path:
+        os.remove(path)
+        flash("知識文件已刪除")
+    else:
+        flash("找不到要刪除的文件")
+    return redirect(url_for("admin_knowledge"))
+
+
+@app.route("/admin/settings", methods=["GET", "POST"])
+@login_required
+def admin_settings():
+    if request.method == "POST":
+        content = request.form.get("system_prompt", "")
+        with open(SYSTEM_PROMPT_FILE, "w", encoding="utf-8") as f:
+            f.write(content)
+        flash("System Prompt 已更新")
+        return redirect(url_for("admin_settings"))
+    return render_template("admin/settings.html", system_prompt=load_system_prompt())
+
+
+# ---------- 啟動時補生成既有已發布活動的 markdown ----------
+def backfill_event_md():
+    try:
+        conn = get_connection()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT id, title, content, createtime FROM `event` WHERE published = 1"
+            )
+            rows = cur.fetchall()
+        conn.close()
+        for row in rows:
+            sync_event_md(row)
+    except Exception as e:  # noqa: BLE001 - 啟動補檔失敗不應擋住伺服器
+        print(f"[chatbot] backfill_event_md skipped: {e}", flush=True)
 
 
 def _save_event(existing):
@@ -195,6 +311,7 @@ def _save_event(existing):
             image_path = f"uploads/{fname}"
 
     conn = get_connection()
+    event_id = existing["id"] if existing else None
     with conn.cursor() as cur:
         if existing:
             cur.execute(
@@ -205,16 +322,29 @@ def _save_event(existing):
         else:
             # 隨機 id，極罕見碰撞時重試
             for _ in range(5):
+                event_id = gen_id()
                 try:
                     cur.execute(
                         "INSERT INTO `event` (id, title, content, image_path, published, author_id) "
                         "VALUES (%s, %s, %s, %s, %s, %s)",
-                        (gen_id(), title, content, image_path, published, session.get("user_id")),
+                        (event_id, title, content, image_path, published, session.get("user_id")),
                     )
                     break
                 except pymysql.err.IntegrityError:
+                    event_id = None
                     continue
     conn.close()
+
+    # 同步知識庫：已發布 → 生成 events markdown；未發布 → 移除
+    if event_id:
+        if published:
+            createtime = existing["createtime"] if existing else datetime.now()
+            sync_event_md({
+                "id": event_id, "title": title,
+                "content": content, "createtime": createtime,
+            })
+        else:
+            remove_event_md(event_id)
 
 
 # ---------- 既有靜態頁 ----------
@@ -249,4 +379,5 @@ def images(filename):
 
 
 if __name__ == "__main__":
+    backfill_event_md()  # 確保既有已發布活動可被 chatbot 查詢
     app.run(host="0.0.0.0", port=5000, debug=True)
