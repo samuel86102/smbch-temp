@@ -10,6 +10,7 @@
 import os
 import re
 import json
+import base64
 
 import bleach
 import requests
@@ -30,6 +31,8 @@ MAX_QUESTION_CHARS = 1000
 
 DEFAULT_MODEL = os.environ.get("OPENROUTER_MODEL", "google/gemini-2.0-flash")
 CLASSIFY_MODEL = os.environ.get("OPENROUTER_CLASSIFY_MODEL", DEFAULT_MODEL)
+# 影像模型：把封面圖 AI 轉成 16:9 列表預覽圖
+IMAGE_MODEL = os.environ.get("OPENROUTER_IMAGE_MODEL", "google/gemini-3.1-flash-lite-image")
 
 DEFAULT_SYSTEM_PROMPT = (
     "你是石門浸信會官方網站的客服小幫手，請依提供的參考資料親切、簡潔地回答訪客問題；"
@@ -176,6 +179,66 @@ def openrouter_chat(messages, model, stream=False, temperature=0.3, timeout=60):
         stream=stream,
         timeout=timeout,
     )
+
+
+# ---------- 影像生成：封面圖 → 16:9 預覽圖 ----------
+_MIME_EXT = {
+    "image/jpeg": "jpg", "image/jpg": "jpg", "image/png": "png",
+    "image/webp": "webp", "image/gif": "gif",
+}
+
+GEN_16X9_PROMPT = (
+    "Redesign this image into a 16:9 landscape banner for a website event thumbnail. "
+    "Do NOT simply extend or outpaint the original; instead re-lay-out the composition "
+    "to fit the wider 16:9 frame while keeping the exact same visual style, color "
+    "palette, fonts, graphics, and mood as the original. "
+    "Preserve ALL text from the original image and keep it fully legible — especially "
+    "the Chinese (Traditional Chinese) characters, which must remain accurate, correctly "
+    "written, and unchanged in wording. Do not add, remove, translate, or misspell any "
+    "text. Output only the redesigned image."
+)
+
+
+def _decode_data_url(data_url):
+    """把 data:image/xxx;base64,.... 解析成 (bytes, 副檔名)。"""
+    match = re.match(r"data:(image/[\w.+-]+);base64,(.*)", data_url or "", re.DOTALL)
+    if not match:
+        raise ValueError("回傳的圖片格式無法解析")
+    mime, b64 = match.group(1).lower(), match.group(2)
+    ext = _MIME_EXT.get(mime, "png")
+    return base64.b64decode(b64), ext
+
+
+def bytes_to_data_url(raw, mime):
+    """把圖片 bytes 包成 data URL，供傳給影像模型。"""
+    mime = mime if mime in _MIME_EXT else "image/png"
+    return f"data:{mime};base64," + base64.b64encode(raw).decode("ascii")
+
+
+def generate_16x9_image(src_data_url, timeout=120):
+    """把來源圖片交給影像模型改成 16:9，回傳 (bytes, 副檔名)；失敗丟出例外。"""
+    payload = {
+        "model": IMAGE_MODEL,
+        "messages": [{
+            "role": "user",
+            "content": [
+                {"type": "text", "text": GEN_16X9_PROMPT},
+                {"type": "image_url", "image_url": {"url": src_data_url}},
+            ],
+        }],
+        "modalities": ["image", "text"],
+    }
+    resp = requests.post(
+        OPENROUTER_URL, headers=_headers(), json=payload, timeout=timeout
+    )
+    resp.raise_for_status()
+    resp.encoding = "utf-8"
+    message = resp.json()["choices"][0]["message"]
+    images = message.get("images") or []
+    if not images:
+        raise ValueError("影像模型沒有回傳圖片")
+    url = images[0].get("image_url", {}).get("url", "")
+    return _decode_data_url(url)
 
 
 # ---------- 步驟一：分類 ----------

@@ -21,12 +21,33 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">封面圖片</label>
+            <label class="block text-sm font-medium text-gray-600 mb-1">封面圖片（內頁大圖）</label>
             {% if event and event.image_path %}
             <img src="/static/{{ event.image_path }}" class="h-32 rounded-lg mb-2 object-cover">
-            <p class="text-xs text-gray-400 mb-2">上傳新圖片即會取代目前封面（留空則保留）。</p>
             {% endif %}
+            <p class="text-xs text-gray-400 mb-2">顯示於活動內頁頂部與社群分享縮圖。上傳新圖片即會取代（留空則保留）。</p>
             <input name="image" type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-primary file:text-white hover:file:bg-secondary">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">預覽圖（列表縮圖）</label>
+            <img id="preview-img" src="{{ '/static/' ~ event.preview_image_path if event and event.preview_image_path else '' }}"
+                 class="h-32 rounded-lg mb-2 object-cover {{ '' if event and event.preview_image_path else 'hidden' }}">
+            <div id="preview-loading" class="hidden relative h-32 aspect-video rounded-lg mb-2 overflow-hidden bg-gradient-to-r from-cream via-secondary/25 to-cream bg-[length:200%_100%] animate-pulse flex flex-col items-center justify-center gap-2 text-secondary">
+                <i class="fas fa-wand-magic-sparkles fa-bounce text-2xl"></i>
+                <span class="text-xs font-medium">AI 生成中…</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-2">顯示於活動列表卡片，建議 16:9（例如 1200×675）。留空則列表沿用封面圖。</p>
+            <div class="flex items-center gap-3 mb-2">
+                <button type="button" id="gen-preview-btn"
+                        data-cover="{{ event.image_path if event and event.image_path else '' }}"
+                        class="inline-flex items-center gap-1.5 text-sm bg-secondary/10 text-secondary px-4 py-2 rounded-full font-medium hover:bg-secondary/20 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-wand-magic-sparkles"></i>用封面圖 AI 生成 16:9
+                </button>
+                <span id="gen-preview-status" class="text-xs text-gray-400"></span>
+            </div>
+            <input type="hidden" name="generated_preview_path" id="generated-preview-path">
+            <input name="preview_image" type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-primary file:text-white hover:file:bg-secondary">
         </div>
 
         <div>
@@ -64,5 +85,57 @@
     {% if event and event.content %}
     quill.clipboard.dangerouslyPasteHTML({{ event.content | tojson }});
     {% endif %}
+</script>
+<script>
+    // 預覽圖：手動選檔時即時預覽，並清掉 AI 生成結果（改以此檔為準）
+    const previewImg = document.getElementById('preview-img');
+    const genPath = document.getElementById('generated-preview-path');
+    const previewFile = document.querySelector('input[name="preview_image"]');
+    previewFile.addEventListener('change', () => {
+        const f = previewFile.files[0];
+        if (!f) return;
+        genPath.value = '';
+        previewImg.src = URL.createObjectURL(f);
+        previewImg.classList.remove('hidden');
+    });
+
+    // AI 生成 16:9 預覽圖（來源：新選的封面檔，否則已存的封面 image_path）
+    const genBtn = document.getElementById('gen-preview-btn');
+    const genBtnHtml = genBtn.innerHTML;
+    const genStatus = document.getElementById('gen-preview-status');
+    const genLoading = document.getElementById('preview-loading');
+    const coverFile = document.querySelector('input[name="image"]');
+    genBtn.addEventListener('click', async () => {
+        const fd = new FormData();
+        if (coverFile.files[0]) {
+            fd.append('image', coverFile.files[0]);
+        } else if (genBtn.dataset.cover) {
+            fd.append('image_path', genBtn.dataset.cover);
+        } else {
+            genStatus.textContent = '請先選擇或上傳封面圖片';
+            return;
+        }
+        genBtn.disabled = true;
+        genBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>生成中…';
+        genStatus.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>AI 生成中，約需 10–30 秒…';
+        previewImg.classList.add('hidden');         // 生成期間改顯示動畫佔位
+        genLoading.classList.remove('hidden');
+        try {
+            const res = await fetch('/admin/generate-preview', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || '生成失敗');
+            genPath.value = data.path;
+            previewFile.value = '';                 // 讓 AI 圖生效，不與手動檔衝突
+            previewImg.src = '/static/' + data.path + '?t=' + Date.now();
+            previewImg.classList.remove('hidden');
+            genStatus.innerHTML = '<i class="fas fa-check mr-1 text-primary"></i>已生成，儲存後套用';
+        } catch (err) {
+            genStatus.textContent = err.message;
+        } finally {
+            genLoading.classList.add('hidden');
+            genBtn.disabled = false;
+            genBtn.innerHTML = genBtnHtml;
+        }
+    });
 </script>
 {% endblock %}

@@ -14,8 +14,9 @@
         {% for e in events %}
         <a href="/events/{{ e.id }}" class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition transform hover:-translate-y-1 duration-200 flex flex-col">
             <div class="aspect-video bg-cream overflow-hidden">
-                {% if e.image_path %}
-                <img src="/static/{{ e.image_path }}" alt="{{ e.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% set thumb = e.preview_image_path or e.image_path %}
+                {% if thumb %}
+                <img src="/static/{{ thumb }}" alt="{{ e.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 {% else %}
                 <div class="w-full h-full flex items-center justify-center text-secondary/40 text-5xl"><i class="fas fa-church"></i></div>
                 {% endif %}

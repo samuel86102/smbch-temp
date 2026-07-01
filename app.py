@@ -7,6 +7,7 @@
 資料庫：獨立的 smbc_website（見 db.py / .env）。
 """
 import os
+import re
 import uuid
 import secrets
 import string
@@ -15,9 +16,10 @@ from functools import wraps
 
 import bleach
 import pymysql
+import requests
 from flask import (
     Flask, request, session, redirect, url_for, render_template,
-    send_from_directory, abort, flash,
+    send_from_directory, abort, flash, jsonify,
 )
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
@@ -26,6 +28,7 @@ from db import get_connection
 from chatbot import (
     chatbot_bp, sync_event_md, remove_event_md,
     load_categories, load_system_prompt,
+    generate_16x9_image, bytes_to_data_url,
     KNOWLEDGE_DIR, SYSTEM_PROMPT_FILE,
 )
 
@@ -106,7 +109,7 @@ def events():
     conn = get_connection()
     with conn.cursor() as cur:
         cur.execute(
-            "SELECT id, title, image_path, createtime FROM `event` "
+            "SELECT id, title, image_path, preview_image_path, createtime FROM `event` "
             "WHERE published = 1 ORDER BY createtime DESC"
         )
         items = cur.fetchall()
@@ -274,6 +277,63 @@ def admin_settings():
     return render_template("admin/settings.html", system_prompt=load_system_prompt())
 
 
+# ---------- 後台：AI 生成 16:9 預覽圖 ----------
+def _uploads_abspath(rel_path):
+    """把 client 傳來的 'uploads/<uuid>.<ext>' 解析為 UPLOAD_DIR 內的安全絕對路徑。
+
+    僅接受 uuid 命名 + 允許副檔名，且需實際存在；否則回 None（防路徑穿越）。
+    """
+    if not re.fullmatch(r"uploads/[0-9a-f]{32}\.[A-Za-z0-9]{1,5}", rel_path or ""):
+        return None
+    name = os.path.basename(rel_path)
+    if name.rsplit(".", 1)[-1].lower() not in ALLOWED_EXT:
+        return None
+    path = os.path.abspath(os.path.join(UPLOAD_DIR, name))
+    if os.path.commonpath([path, UPLOAD_DIR]) != UPLOAD_DIR or not os.path.isfile(path):
+        return None
+    return path
+
+
+@app.route("/admin/generate-preview", methods=["POST"])
+@login_required
+def admin_generate_preview():
+    """把封面圖（新上傳的檔案，或已存在的 image_path）用 AI 轉成 16:9 預覽圖。"""
+    if not os.environ.get("OPENROUTER_API_KEY"):
+        return jsonify(error="伺服器尚未設定 OPENROUTER_API_KEY"), 503
+
+    # 來源：優先用剛選取的封面檔，其次用已儲存的 image_path
+    src_bytes = src_mime = None
+    file = request.files.get("image")
+    if file and file.filename:
+        ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else ""
+        if ext not in ALLOWED_EXT:
+            return jsonify(error="圖片格式不支援（僅 jpg/png/webp/gif）"), 400
+        src_bytes = file.read()
+        src_mime = file.mimetype or "image/png"
+    else:
+        path = _uploads_abspath(request.form.get("image_path", ""))
+        if path:
+            with open(path, "rb") as f:
+                src_bytes = f.read()
+            src_mime = "image/" + os.path.basename(path).rsplit(".", 1)[-1].lower()
+
+    if not src_bytes:
+        return jsonify(error="找不到內頁大圖，請先上傳封面圖片再生成"), 400
+
+    try:
+        out_bytes, ext = generate_16x9_image(bytes_to_data_url(src_bytes, src_mime))
+    except requests.exceptions.RequestException:
+        return jsonify(error="無法連線到 AI 影像服務，請稍後再試"), 502
+    except Exception as e:  # noqa: BLE001
+        print(f"[preview] generate failed: {e}", flush=True)
+        return jsonify(error="AI 生成失敗，請換一張圖或稍後再試"), 502
+
+    fname = f"{uuid.uuid4().hex}.{ext}"
+    with open(os.path.join(UPLOAD_DIR, secure_filename(fname)), "wb") as f:
+        f.write(out_bytes)
+    return jsonify(path=f"uploads/{fname}")
+
+
 # ---------- 啟動時補生成既有已發布活動的 markdown ----------
 def backfill_event_md():
     try:
@@ -290,6 +350,20 @@ def backfill_event_md():
         print(f"[chatbot] backfill_event_md skipped: {e}", flush=True)
 
 
+def _save_upload(field_name, current_path):
+    """儲存單一上傳圖片，回傳相對路徑；未上傳則保留 current_path。"""
+    file = request.files.get(field_name)
+    if not (file and file.filename):
+        return current_path
+    ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else ""
+    if ext not in ALLOWED_EXT:
+        flash("圖片格式不支援（僅 jpg/png/webp/gif）")
+        return current_path
+    fname = f"{uuid.uuid4().hex}.{ext}"
+    file.save(os.path.join(UPLOAD_DIR, secure_filename(fname)))
+    return f"uploads/{fname}"
+
+
 def _save_event(existing):
     """處理新增 / 編輯活動的表單，含圖片上傳與內文清洗。"""
     title = request.form.get("title", "").strip()
@@ -299,25 +373,22 @@ def _save_event(existing):
     )
     published = 1 if request.form.get("published") else 0
 
-    image_path = existing["image_path"] if existing else None
-    file = request.files.get("image")
-    if file and file.filename:
-        ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else ""
-        if ext not in ALLOWED_EXT:
-            flash("圖片格式不支援（僅 jpg/png/webp/gif）")
-        else:
-            fname = f"{uuid.uuid4().hex}.{ext}"
-            file.save(os.path.join(UPLOAD_DIR, secure_filename(fname)))
-            image_path = f"uploads/{fname}"
+    image_path = _save_upload("image", existing["image_path"] if existing else None)
+    # 預覽圖優先序：新上傳檔 > AI 生成圖 > 既有圖
+    preview_current = existing["preview_image_path"] if existing else None
+    generated = _uploads_abspath(request.form.get("generated_preview_path", ""))
+    if generated:
+        preview_current = "uploads/" + os.path.basename(generated)
+    preview_image_path = _save_upload("preview_image", preview_current)
 
     conn = get_connection()
     event_id = existing["id"] if existing else None
     with conn.cursor() as cur:
         if existing:
             cur.execute(
-                "UPDATE `event` SET title=%s, content=%s, image_path=%s, published=%s "
-                "WHERE id=%s",
-                (title, content, image_path, published, existing["id"]),
+                "UPDATE `event` SET title=%s, content=%s, image_path=%s, "
+                "preview_image_path=%s, published=%s WHERE id=%s",
+                (title, content, image_path, preview_image_path, published, existing["id"]),
             )
         else:
             # 隨機 id，極罕見碰撞時重試
@@ -325,9 +396,11 @@ def _save_event(existing):
                 event_id = gen_id()
                 try:
                     cur.execute(
-                        "INSERT INTO `event` (id, title, content, image_path, published, author_id) "
-                        "VALUES (%s, %s, %s, %s, %s, %s)",
-                        (event_id, title, content, image_path, published, session.get("user_id")),
+                        "INSERT INTO `event` (id, title, content, image_path, "
+                        "preview_image_path, published, author_id) "
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                        (event_id, title, content, image_path, preview_image_path,
+                         published, session.get("user_id")),
                     )
                     break
                 except pymysql.err.IntegrityError:

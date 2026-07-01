@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS `event` (
   `id` varchar(16) NOT NULL,                             -- 隨機 base62 短碼(非自增,用於 /events/<id>)
   `title` varchar(255) NOT NULL,
   `content` longtext DEFAULT NULL,                       -- WYSIWYG 內文（已清洗的 HTML）
-  `image_path` varchar(255) DEFAULT NULL,                -- 上傳圖片相對路徑
+  `image_path` varchar(255) DEFAULT NULL,                -- 封面圖(內頁大圖 + OG 分享圖)相對路徑
+  `preview_image_path` varchar(255) DEFAULT NULL,        -- 列表預覽縮圖(留空則沿用 image_path)
   `published` tinyint(1) NOT NULL DEFAULT 1,             -- 1=已發布 0=草稿
   `author_id` int(11) DEFAULT NULL,                      -- 發布者，接 user.id
   `createtime` datetime NOT NULL DEFAULT current_timestamp(),
@@ -26,3 +27,6 @@ CREATE TABLE IF NOT EXISTS `event` (
   KEY `author_id` (`author_id`),
   CONSTRAINT `event_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 既有資料庫升級：新增列表預覽縮圖欄位（IF NOT EXISTS 可安全重跑）。
+ALTER TABLE `event` ADD COLUMN IF NOT EXISTS `preview_image_path` varchar(255) DEFAULT NULL AFTER `image_path`;
